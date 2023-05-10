@@ -1,0 +1,13 @@
+6.7654 	WARNING 	User requested fullscreen with size [1024  768], but screen is actually [1920, 1080]. Using actual size
+7.7136 	EXP 	Created window1 = Window(allowGUI=True, allowStencil=False, autoLog=True, backendConf=UNKNOWN, backgroundFit=<method-wrapper '__getattribute__' of attributeSetter object at 0x000001891C159CD0>, backgroundImage=<method-wrapper '__getattribute__' of attributeSetter object at 0x000001891C159C70>, bitsMode=UNKNOWN, blendMode='avg', bpc=(8, 8, 8), color=array([0, 0, 0]), colorSpace='rgb', depthBits=8, fullscr=<method-wrapper '__getattribute__' of attributeSetter object at 0x000001891C1599A0>, gamma=None, gammaErrorPolicy='raise', lms=UNKNOWN, monitor=<psychopy.monitors.calibTools.Monitor object at 0x000001891D631310>, multiSample=False, name='window1', numSamples=2, pos=(0, 0), screen=0, size=array([1920, 1080]), stencilBits=0, stereo=False, units='height', useFBO=True, useRetina=False, viewOri=0.0, viewPos=None, viewScale=None, waitBlanking=True, winType='pyglet')
+7.7137 	EXP 	window1: mouseVisible = True
+7.7137 	EXP 	window1: backgroundImage = ''
+7.7137 	EXP 	window1: backgroundFit = 'none'
+7.7139 	EXP 	window1: mouseVisible = False
+7.7139 	EXP 	window1: Attempting to measure frame rate of screen (0) ...
+7.7139 	EXP 	window1: recordFrameIntervals = False
+7.8798 	EXP 	window1: recordFrameIntervals = True
+8.0632 	EXP 	Screen (0) actual frame rate measured at 59.99Hz
+8.0632 	EXP 	window1: recordFrameIntervals = False
+11.6741 	EXP 	Created image = ImageStim(__class__=<class 'psychopy.visual.image.ImageStim'>, anchor=('center', 'center'), autoLog=True, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-1.0, flipHoriz=False, flipVert=False, image='C:/Users/MSereno/Downloads/nate_photo.jpg', interpolate=True, mask=None, maskParams=None, name='image', opacity=1.0, ori=0.0, pos=array([0., 0.]), size=array([0.5, 0.5]), texRes=128.0, units='height', win=Window(...))
+11.7962 	EXP 	window1: mouseVisible = True

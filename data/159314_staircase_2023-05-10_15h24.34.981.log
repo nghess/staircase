@@ -1,0 +1,18 @@
+6.6795 	WARNING 	User requested fullscreen with size [1024  768], but screen is actually [1920, 1080]. Using actual size
+7.4899 	EXP 	Created window1 = Window(allowGUI=True, allowStencil=False, autoLog=True, backendConf=UNKNOWN, backgroundFit=<method-wrapper '__getattribute__' of attributeSetter object at 0x00000135FA381EB0>, backgroundImage=<method-wrapper '__getattribute__' of attributeSetter object at 0x00000135FA381E50>, bitsMode=UNKNOWN, blendMode='avg', bpc=(8, 8, 8), color=array([0, 0, 0]), colorSpace='rgb', depthBits=8, fullscr=<method-wrapper '__getattribute__' of attributeSetter object at 0x00000135FA381B50>, gamma=None, gammaErrorPolicy='raise', lms=UNKNOWN, monitor=<psychopy.monitors.calibTools.Monitor object at 0x0000013582FA09D0>, multiSample=False, name='window1', numSamples=2, pos=(0, 0), screen=0, size=array([1920, 1080]), stencilBits=0, stereo=False, units='height', useFBO=True, useRetina=False, viewOri=0.0, viewPos=None, viewScale=None, waitBlanking=True, winType='pyglet')
+7.4900 	EXP 	window1: mouseVisible = True
+7.4900 	EXP 	window1: backgroundImage = ''
+7.4900 	EXP 	window1: backgroundFit = 'none'
+7.4902 	EXP 	window1: mouseVisible = False
+7.4902 	EXP 	window1: Attempting to measure frame rate of screen (0) ...
+7.4902 	EXP 	window1: recordFrameIntervals = False
+7.6560 	EXP 	window1: recordFrameIntervals = True
+7.8394 	EXP 	Screen (0) actual frame rate measured at 60.07Hz
+7.8394 	EXP 	window1: recordFrameIntervals = False
+9.8509 	EXP 	Created image = ImageStim(__class__=<class 'psychopy.visual.image.ImageStim'>, anchor=('center', 'center'), autoLog=True, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-1.0, flipHoriz=False, flipVert=False, image='stimuli/fractal_left.png', interpolate=True, mask=None, maskParams=None, name='image', opacity=1.0, ori=0.0, pos=array([0., 0.]), size=array([0.5, 0.5]), texRes=128.0, units='height', win=Window(...))
+9.8516 	EXP 	window1: mouseVisible = True
+9.8521 	EXP 	Created sequence: random, trialTypes=1, nReps=5, seed=None
+9.8523 	EXP 	New trial (rep=0, index=0): None
+10.0400 	EXP 	image: autoDraw = True
+11.1735 	DATA 	Mouse: Left button down, pos=(941,584)
+11.2450 	EXP 	window1: mouseVisible = True

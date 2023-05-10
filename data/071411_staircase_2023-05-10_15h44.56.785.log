@@ -1,0 +1,55 @@
+6.7831 	WARNING 	User requested fullscreen with size [1024  768], but screen is actually [1920, 1080]. Using actual size
+7.6053 	EXP 	Created window1 = Window(allowGUI=True, allowStencil=False, autoLog=True, backendConf=UNKNOWN, backgroundFit=<method-wrapper '__getattribute__' of attributeSetter object at 0x00000275F53074C0>, backgroundImage=<method-wrapper '__getattribute__' of attributeSetter object at 0x00000275F5307460>, bitsMode=UNKNOWN, blendMode='avg', bpc=(8, 8, 8), color=array([0, 0, 0]), colorSpace='rgb', depthBits=8, fullscr=<method-wrapper '__getattribute__' of attributeSetter object at 0x00000275F5307190>, gamma=None, gammaErrorPolicy='raise', lms=UNKNOWN, monitor=<psychopy.monitors.calibTools.Monitor object at 0x00000275FC261400>, multiSample=False, name='window1', numSamples=2, pos=(0, 0), screen=0, size=array([1920, 1080]), stencilBits=0, stereo=False, units='height', useFBO=True, useRetina=False, viewOri=0.0, viewPos=None, viewScale=None, waitBlanking=True, winType='pyglet')
+7.6055 	EXP 	window1: mouseVisible = True
+7.6055 	EXP 	window1: backgroundImage = ''
+7.6055 	EXP 	window1: backgroundFit = 'none'
+7.6057 	EXP 	window1: mouseVisible = False
+7.6057 	EXP 	window1: Attempting to measure frame rate of screen (0) ...
+7.6057 	EXP 	window1: recordFrameIntervals = False
+7.7721 	EXP 	window1: recordFrameIntervals = True
+7.9551 	EXP 	Screen (0) actual frame rate measured at 60.02Hz
+7.9551 	EXP 	window1: recordFrameIntervals = False
+10.0545 	EXP 	Created image_l = ImageStim(__class__=<class 'psychopy.visual.image.ImageStim'>, anchor=('center', 'center'), autoLog=True, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-1.0, flipHoriz=False, flipVert=False, image='default.png', interpolate=True, mask=None, maskParams=None, name='image_l', opacity=1.0, ori=0.0, pos=array([-0.5,  0. ]), size=array([0.5, 0.5]), texRes=128.0, units='height', win=Window(...))
+10.0694 	EXP 	Created image_r = ImageStim(__class__=<class 'psychopy.visual.image.ImageStim'>, anchor=('center', 'center'), autoLog=True, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-2.0, flipHoriz=False, flipVert=False, image='default.png', interpolate=True, mask=None, maskParams=None, name='image_r', opacity=1.0, ori=0.0, pos=array([0.5, 0. ]), size=array([0.5, 0.5]), texRes=128.0, units='height', win=Window(...))
+10.0699 	EXP 	Created sequence: random, trialTypes=1, nReps=5, seed=None
+10.0701 	EXP 	New trial (rep=0, index=0): None
+10.5888 	EXP 	image_l: image = 'stimuli/fractal_left.png'
+10.5888 	EXP 	image_r: image = 'stimuli/fractal_left.png'
+10.5888 	EXP 	image_l: autoDraw = True
+10.5888 	EXP 	image_r: autoDraw = True
+13.0899 	EXP 	New trial (rep=1, index=0): None
+13.1156 	DATA 	Keypress: space
+13.1216 	EXP 	image_l: autoDraw = False
+13.1216 	EXP 	image_r: autoDraw = False
+13.1216 	EXP 	image_l: image = 'stimuli/fractal_left.png'
+13.1216 	EXP 	image_r: image = 'stimuli/fractal_left.png'
+13.1216 	EXP 	image_l: autoDraw = True
+13.1216 	EXP 	image_r: autoDraw = True
+13.8227 	EXP 	New trial (rep=2, index=0): None
+13.8467 	DATA 	Keypress: space
+13.8550 	EXP 	image_l: autoDraw = False
+13.8550 	EXP 	image_r: autoDraw = False
+13.8550 	EXP 	image_l: image = 'stimuli/fractal_left.png'
+13.8550 	EXP 	image_r: image = 'stimuli/fractal_left.png'
+13.8550 	EXP 	image_l: autoDraw = True
+13.8550 	EXP 	image_r: autoDraw = True
+14.5060 	EXP 	New trial (rep=3, index=0): None
+14.5318 	DATA 	Keypress: space
+14.5383 	EXP 	image_l: autoDraw = False
+14.5383 	EXP 	image_r: autoDraw = False
+14.5383 	EXP 	image_l: image = 'stimuli/fractal_left.png'
+14.5383 	EXP 	image_r: image = 'stimuli/fractal_left.png'
+14.5383 	EXP 	image_l: autoDraw = True
+14.5383 	EXP 	image_r: autoDraw = True
+15.4893 	EXP 	New trial (rep=4, index=0): None
+15.8285 	DATA 	Keypress: space
+15.8383 	EXP 	image_l: autoDraw = False
+15.8383 	EXP 	image_r: autoDraw = False
+15.8383 	EXP 	image_l: image = 'stimuli/fractal_left.png'
+15.8383 	EXP 	image_r: image = 'stimuli/fractal_left.png'
+15.8383 	EXP 	image_l: autoDraw = True
+15.8383 	EXP 	image_r: autoDraw = True
+16.4728 	DATA 	Keypress: space
+16.4882 	EXP 	image_l: autoDraw = False
+16.4882 	EXP 	image_r: autoDraw = False
+16.5614 	EXP 	window1: mouseVisible = True

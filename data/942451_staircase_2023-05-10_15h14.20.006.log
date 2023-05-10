@@ -1,0 +1,13 @@
+22.1460 	WARNING 	User requested fullscreen with size [1024  768], but screen is actually [1920, 1080]. Using actual size
+22.9757 	EXP 	Created window1 = Window(allowGUI=True, allowStencil=False, autoLog=True, backendConf=UNKNOWN, backgroundFit=<method-wrapper '__getattribute__' of attributeSetter object at 0x0000029E32C5FDC0>, backgroundImage=<method-wrapper '__getattribute__' of attributeSetter object at 0x0000029E32C5FD60>, bitsMode=UNKNOWN, blendMode='avg', bpc=(8, 8, 8), color=array([0, 0, 0]), colorSpace='rgb', depthBits=8, fullscr=<method-wrapper '__getattribute__' of attributeSetter object at 0x0000029E32C5FA60>, gamma=None, gammaErrorPolicy='raise', lms=UNKNOWN, monitor=<psychopy.monitors.calibTools.Monitor object at 0x0000029E343FAEB0>, multiSample=False, name='window1', numSamples=2, pos=(0, 0), screen=0, size=array([1920, 1080]), stencilBits=0, stereo=False, units='height', useFBO=True, useRetina=False, viewOri=0.0, viewPos=None, viewScale=None, waitBlanking=True, winType='pyglet')
+22.9758 	EXP 	window1: mouseVisible = True
+22.9758 	EXP 	window1: backgroundImage = ''
+22.9758 	EXP 	window1: backgroundFit = 'none'
+22.9759 	EXP 	window1: mouseVisible = False
+22.9759 	EXP 	window1: Attempting to measure frame rate of screen (0) ...
+22.9760 	EXP 	window1: recordFrameIntervals = False
+23.1420 	EXP 	window1: recordFrameIntervals = True
+23.3256 	EXP 	Screen (0) actual frame rate measured at 60.00Hz
+23.3256 	EXP 	window1: recordFrameIntervals = False
+25.2397 	DEPRECATION 	Couldn't find image stimuli/fractal_left.png; check path? (tried: D:\Nate\PyStaircase\stimuli\fractal_left.png)
+25.3193 	EXP 	window1: mouseVisible = True
