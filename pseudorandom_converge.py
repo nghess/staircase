@@ -2,32 +2,42 @@ import random
 import numpy as np
 import cv2
 
-def generate_numbers(N):
-    return [random.uniform(1, 2) for _ in range(N)]
+hi = 1
+lo = 0
 
+def generate_numbers(N, lo, hi):
+    return [random.uniform(lo, hi) for _ in range(N)]
 
-def converge_numbers(numbers, convergence_factor=0.5, bounds=(1, 2)):
-    min_value, max_value = bounds
-    center = (min_value + max_value) / 2
+def converge_numbers(numbers, target, convergence_factor):
+
     converged_numbers = []
 
     for number in numbers:
-        pseudo_random_shift = random.uniform(-convergence_factor, convergence_factor)
-        new_number = number + (center - number) * pseudo_random_shift
-        new_number = max(min(new_number, max_value), min_value)  # Ensure the number stays within bounds
+        pseudo_random_shift = random.uniform(0, convergence_factor)
+
+        if number > target:
+            new_number = number - pseudo_random_shift
+        elif number < target:
+            new_number = number + pseudo_random_shift
+        elif number - convergence_factor == target:
+            new_number = target
+        elif number + convergence_factor == target:
+            new_number = target
+
         converged_numbers.append(new_number)
 
     return converged_numbers
 
-
 # Example usage
-N = 100
-random_numbers = generate_numbers(N)
-matrix = np.empty((0,N), int)
-#print("Random numbers:", random_numbers)
+target = 0.5
+N = 1024
+random_numbers = generate_numbers(N, 0, 1)
+matrix = np.empty((0, N), int)
 
-for i in range(N):
-    converged_numbers = converge_numbers([random_numbers])
-    matrix = np.append(matrix, converged_numbers, axis=0)
+for i in range(1, round(N+1/10)): #rather than loop, call each routine
+    converged_numbers = converge_numbers(random_numbers, target, convergence_factor=0.05**(i/N))
+    matrix = np.append(matrix, [converged_numbers], axis=0)
+    random_numbers = converged_numbers
 
-#print("Converged numbers:", converged_numbers)
+cv2.imshow('staircase', matrix)
+cv2.waitKey(0)
