@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2023.1.2),
-    on May 10, 2023, at 15:44
+    on May 10, 2023, at 20:34
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -36,14 +36,38 @@ from psychopy.hardware import keyboard
 import os
 import cv2
 import time
+import random
 import numpy as np
 from numpy import inf
 import matplotlib.pyplot as plt
 from matplotlib import animation
-#from skimage.transform import resize
 
-beta = 4
+# Variables
+beta_hi = 4
+beta_lo = 2
+target = 3
+count = 0
 
+# Converge numbers function
+def converge_numbers(numbers, target, i):
+
+    converged_numbers = []
+    
+    for number in numbers:
+        #Should this be a set interval, or a set step size?
+        pseudo_random_shift = .05#round(random.uniform(0, abs(target - number)/3), 2)
+        print(pseudo_random_shift)
+
+        if number > target:
+            new_number = number - pseudo_random_shift
+        elif number < target:
+            new_number = number + pseudo_random_shift
+
+        converged_numbers.append(new_number)
+
+    return converged_numbers
+
+# Fractal generator class
 class Generate:
     # Generate 2d or 3d fractal
     def __init__(self, beta=4, seed=117, size=256, dimension=2, preview=False, save=False, method="ifft"):
@@ -289,7 +313,7 @@ image_l = visual.ImageStim(
     win=win,
     name='image_l', 
     image='default.png', mask=None, anchor='center',
-    ori=0.0, pos=(-0.5, 0), size=(0.5, 0.5),
+    ori=0.0, pos=(-0.33, 0), size=(0.5, 0.5),
     color=[1,1,1], colorSpace='rgb', opacity=None,
     flipHoriz=False, flipVert=False,
     texRes=128.0, interpolate=True, depth=-1.0)
@@ -297,7 +321,7 @@ image_r = visual.ImageStim(
     win=win,
     name='image_r', 
     image='default.png', mask=None, anchor='center',
-    ori=0.0, pos=(0.5, 0), size=(0.5, 0.5),
+    ori=0.0, pos=(0.33, 0), size=(0.5, 0.5),
     color=[1,1,1], colorSpace='rgb', opacity=None,
     flipHoriz=False, flipVert=False,
     texRes=128.0, interpolate=True, depth=-2.0)
@@ -310,7 +334,7 @@ globalClock = core.Clock()  # to track the time since experiment started
 routineTimer = core.Clock()  # to track time remaining of each (possibly non-slip) routine 
 
 # set up handler to look after randomisation of conditions etc
-staircase = data.TrialHandler(nReps=5.0, method='random', 
+staircase = data.TrialHandler(nReps=100.0, method='random', 
     extraInfo=expInfo, originPath=-1,
     trialList=[None],
     seed=None, name='staircase')
@@ -332,12 +356,17 @@ for thisStaircase in staircase:
     continueRoutine = True
     # update component parameters for each repeat
     # Run 'Begin Routine' code from code
+    # Generate stimuli for 2AFC
+    betas = [beta_hi, beta_lo]
+    random.shuffle(betas) 
     
-    fractal = Generate(beta=beta, seed=117, size=256, dimension=2)
+    fractal_l = Generate(beta=betas[0], seed=random.randint(123, 12300), size=256, dimension=2)
+    fractal_r = Generate(beta=betas[1], seed=random.randint(123, 12300), size=256, dimension=2)
     
-    cv2.imwrite(f"stimuli/fractal_left.png", fractal.pattern*255)
+    cv2.imwrite(f"stimuli/fractal_left.png", fractal_l.pattern*255)
+    cv2.imwrite(f"stimuli/fractal_right.png", fractal_r.pattern*255)
     image_l.setImage('stimuli/fractal_left.png')
-    image_r.setImage('stimuli/fractal_left.png')
+    image_r.setImage('stimuli/fractal_right.png')
     key_resp.keys = []
     key_resp.rt = []
     _key_resp_allKeys = []
@@ -495,8 +524,16 @@ for thisStaircase in staircase:
     continueRoutine = True
     # update component parameters for each repeat
     # Run 'Begin Routine' code from increase_beta
-    beta = beta + 1
-    print(beta)
+    # Optional: count increase decays convergence factor
+    count += 1
+    # Nudge betas toward target
+    converged_numbers = converge_numbers(betas, target, count)
+    
+    beta_hi = max(converged_numbers)
+    beta_lo = min(converged_numbers)
+    
+    print(beta_hi)
+    print(beta_lo)
     # keep track of which components have finished
     adjust_betaComponents = []
     for thisComponent in adjust_betaComponents:
@@ -549,7 +586,7 @@ for thisStaircase in staircase:
     routineTimer.reset()
     thisExp.nextEntry()
     
-# completed 5.0 repeats of 'staircase'
+# completed 100.0 repeats of 'staircase'
 
 
 # --- End experiment ---

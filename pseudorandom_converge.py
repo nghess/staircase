@@ -30,7 +30,7 @@ def converge_numbers(numbers, target, convergence_factor):
 
 # Example usage
 target = 0.5
-N = 1024
+N = 64
 random_numbers = generate_numbers(N, 0, 1)
 matrix = np.empty((0, N), int)
 
