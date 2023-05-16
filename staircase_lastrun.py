@@ -1,8 +1,8 @@
 ﻿#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-This experiment was created using PsychoPy3 Experiment Builder (v2023.1.2),
-    on May 10, 2023, at 20:34
+This experiment was created using PsychoPy3 Experiment Builder (v2023.1.1),
+    on May 16, 2023, at 14:01
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -55,6 +55,7 @@ def converge_numbers(numbers, target, i):
     
     for number in numbers:
         #Should this be a set interval, or a set step size?
+        # Probably, a policy where the step size decreases 3 times or so works.
         pseudo_random_shift = .05#round(random.uniform(0, abs(target - number)/3), 2)
         print(pseudo_random_shift)
 
@@ -246,7 +247,7 @@ class Generate:
 _thisDir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(_thisDir)
 # Store info about the experiment session
-psychopyVersion = '2023.1.2'
+psychopyVersion = '2023.1.1'
 expName = 'staircase'  # from the Builder filename that created this script
 expInfo = {
     'participant': f"{randint(0, 999999):06.0f}",
@@ -261,12 +262,12 @@ expInfo['expName'] = expName
 expInfo['psychopyVersion'] = psychopyVersion
 
 # Data file name stem = absolute path + name; later add .psyexp, .csv, .log, etc
-filename = _thisDir + os.sep + u'data/%s_%s_%s' % (expInfo['participant'], expName, expInfo['date'])
+filename = _thisDir + os.sep + u'test_data'
 
 # An ExperimentHandler isn't essential but helps with data saving
 thisExp = data.ExperimentHandler(name=expName, version='',
     extraInfo=expInfo, runtimeInfo=None,
-    originPath='D:\\Nate\\PyStaircase\\staircase_lastrun.py',
+    originPath='D:\\staircase\\staircase_lastrun.py',
     savePickle=True, saveWideText=True,
     dataFileName=filename)
 # save a log file for detail verbose info
@@ -280,7 +281,7 @@ frameTolerance = 0.001  # how close to onset before 'same' frame
 
 # --- Setup the Window ---
 win = visual.Window(
-    size=(1024, 768), fullscr=True, screen=0, 
+    size=[1920, 1080], fullscr=True, screen=0, 
     winType='pyglet', allowStencil=False,
     monitor='testMonitor', color=[0,0,0], colorSpace='rgb',
     backgroundImage='', backgroundFit='none',
@@ -325,7 +326,9 @@ image_r = visual.ImageStim(
     color=[1,1,1], colorSpace='rgb', opacity=None,
     flipHoriz=False, flipVert=False,
     texRes=128.0, interpolate=True, depth=-2.0)
-key_resp = keyboard.Keyboard()
+mouse = event.Mouse(win=win)
+x, y = [None, None]
+mouse.mouseClock = core.Clock()
 
 # --- Initialize components for Routine "adjust_beta" ---
 
@@ -359,19 +362,37 @@ for thisStaircase in staircase:
     # Generate stimuli for 2AFC
     betas = [beta_hi, beta_lo]
     random.shuffle(betas) 
+    # In case betas are equal, separate them slightly
+    if betas[0] == betas[1]:
+        betas[0] = betas[0] - .01
+    
     
     fractal_l = Generate(beta=betas[0], seed=random.randint(123, 12300), size=256, dimension=2)
     fractal_r = Generate(beta=betas[1], seed=random.randint(123, 12300), size=256, dimension=2)
     
     cv2.imwrite(f"stimuli/fractal_left.png", fractal_l.pattern*255)
     cv2.imwrite(f"stimuli/fractal_right.png", fractal_r.pattern*255)
+    
+    # Find correct side
+    #higher_d = betas.index(max(betas)) 
+    if betas[0] > betas[1]:
+        correct = image_l
+    else:
+        correct = image_r
     image_l.setImage('stimuli/fractal_left.png')
     image_r.setImage('stimuli/fractal_right.png')
-    key_resp.keys = []
-    key_resp.rt = []
-    _key_resp_allKeys = []
+    # setup some python lists for storing info about the mouse
+    mouse.x = []
+    mouse.y = []
+    mouse.leftButton = []
+    mouse.midButton = []
+    mouse.rightButton = []
+    mouse.time = []
+    mouse.corr = []
+    mouse.clicked_name = []
+    gotValidClick = False  # until a click is received
     # keep track of which components have finished
-    trialComponents = [image_l, image_r, key_resp]
+    trialComponents = [image_l, image_r, mouse]
     for thisComponent in trialComponents:
         thisComponent.tStart = None
         thisComponent.tStop = None
@@ -403,8 +424,6 @@ for thisStaircase in staircase:
             image_l.tStart = t  # local t and not account for scr refresh
             image_l.tStartRefresh = tThisFlipGlobal  # on global time
             win.timeOnFlip(image_l, 'tStartRefresh')  # time at next scr refresh
-            # add timestamp to datafile
-            thisExp.timestampOnFlip(win, 'image_l.started')
             # update status
             image_l.status = STARTED
             image_l.setAutoDraw(True)
@@ -421,8 +440,6 @@ for thisStaircase in staircase:
                 # keep track of stop time/frame for later
                 image_l.tStop = t  # not accounting for scr refresh
                 image_l.frameNStop = frameN  # exact frame index
-                # add timestamp to datafile
-                thisExp.timestampOnFlip(win, 'image_l.stopped')
                 # update status
                 image_l.status = FINISHED
                 image_l.setAutoDraw(False)
@@ -436,8 +453,6 @@ for thisStaircase in staircase:
             image_r.tStart = t  # local t and not account for scr refresh
             image_r.tStartRefresh = tThisFlipGlobal  # on global time
             win.timeOnFlip(image_r, 'tStartRefresh')  # time at next scr refresh
-            # add timestamp to datafile
-            thisExp.timestampOnFlip(win, 'image_r.started')
             # update status
             image_r.status = STARTED
             image_r.setAutoDraw(True)
@@ -454,38 +469,54 @@ for thisStaircase in staircase:
                 # keep track of stop time/frame for later
                 image_r.tStop = t  # not accounting for scr refresh
                 image_r.frameNStop = frameN  # exact frame index
-                # add timestamp to datafile
-                thisExp.timestampOnFlip(win, 'image_r.stopped')
                 # update status
                 image_r.status = FINISHED
                 image_r.setAutoDraw(False)
+        # *mouse* updates
         
-        # *key_resp* updates
-        waitOnFlip = False
-        
-        # if key_resp is starting this frame...
-        if key_resp.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+        # if mouse is starting this frame...
+        if mouse.status == NOT_STARTED and t >= 0.0-frameTolerance:
             # keep track of start time/frame for later
-            key_resp.frameNStart = frameN  # exact frame index
-            key_resp.tStart = t  # local t and not account for scr refresh
-            key_resp.tStartRefresh = tThisFlipGlobal  # on global time
-            win.timeOnFlip(key_resp, 'tStartRefresh')  # time at next scr refresh
-            # add timestamp to datafile
-            thisExp.timestampOnFlip(win, 'key_resp.started')
+            mouse.frameNStart = frameN  # exact frame index
+            mouse.tStart = t  # local t and not account for scr refresh
+            mouse.tStartRefresh = tThisFlipGlobal  # on global time
+            win.timeOnFlip(mouse, 'tStartRefresh')  # time at next scr refresh
             # update status
-            key_resp.status = STARTED
-            # keyboard checking is just starting
-            waitOnFlip = True
-            win.callOnFlip(key_resp.clock.reset)  # t=0 on next screen flip
-            win.callOnFlip(key_resp.clearEvents, eventType='keyboard')  # clear events on next screen flip
-        if key_resp.status == STARTED and not waitOnFlip:
-            theseKeys = key_resp.getKeys(keyList=['y','n','left','right','space'], waitRelease=False)
-            _key_resp_allKeys.extend(theseKeys)
-            if len(_key_resp_allKeys):
-                key_resp.keys = _key_resp_allKeys[-1].name  # just the last key pressed
-                key_resp.rt = _key_resp_allKeys[-1].rt
-                # a response ends the routine
-                continueRoutine = False
+            mouse.status = STARTED
+            mouse.mouseClock.reset()
+            prevButtonState = mouse.getPressed()  # if button is down already this ISN'T a new click
+        if mouse.status == STARTED:  # only update if started and not finished!
+            buttons = mouse.getPressed()
+            if buttons != prevButtonState:  # button state changed?
+                prevButtonState = buttons
+                if sum(buttons) > 0:  # state changed to a new click
+                    # check if the mouse was inside our 'clickable' objects
+                    gotValidClick = False
+                    clickableList = core.getFromNames([image_l, image_r], namespace=locals())
+                    for obj in clickableList:
+                        # is this object clicked on?
+                        if obj.contains(mouse):
+                            gotValidClick = True
+                            mouse.clicked_name.append(obj.name)
+                    # check whether click was in correct object
+                    if gotValidClick:
+                        corr = 0
+                        corrAns = core.getFromNames(correct, namespace=locals())
+                        for obj in corrAns:
+                            # is this object clicked on?
+                            if obj.contains(mouse):
+                                corr = 1
+                        mouse.corr.append(corr)
+                    x, y = mouse.getPos()
+                    mouse.x.append(x)
+                    mouse.y.append(y)
+                    buttons = mouse.getPressed()
+                    mouse.leftButton.append(buttons[0])
+                    mouse.midButton.append(buttons[1])
+                    mouse.rightButton.append(buttons[2])
+                    mouse.time.append(mouse.mouseClock.getTime())
+                    
+                    continueRoutine = False  # end routine on response
         
         # check for quit (typically the Esc key)
         if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
@@ -511,12 +542,15 @@ for thisStaircase in staircase:
     for thisComponent in trialComponents:
         if hasattr(thisComponent, "setAutoDraw"):
             thisComponent.setAutoDraw(False)
-    # check responses
-    if key_resp.keys in ['', [], None]:  # No response was made
-        key_resp.keys = None
-    staircase.addData('key_resp.keys',key_resp.keys)
-    if key_resp.keys != None:  # we had a response
-        staircase.addData('key_resp.rt', key_resp.rt)
+    # store data for staircase (TrialHandler)
+    staircase.addData('mouse.x', mouse.x)
+    staircase.addData('mouse.y', mouse.y)
+    staircase.addData('mouse.leftButton', mouse.leftButton)
+    staircase.addData('mouse.midButton', mouse.midButton)
+    staircase.addData('mouse.rightButton', mouse.rightButton)
+    staircase.addData('mouse.time', mouse.time)
+    staircase.addData('mouse.corr', mouse.corr)
+    staircase.addData('mouse.clicked_name', mouse.clicked_name)
     # the Routine "trial" was not non-slip safe, so reset the non-slip timer
     routineTimer.reset()
     

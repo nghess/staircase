@@ -1,0 +1,22 @@
+5.5409 	WARNING 	User requested fullscreen with size [1024  768], but screen is actually [1920, 1080]. Using actual size
+6.1155 	EXP 	Created window1 = Window(allowGUI=True, allowStencil=False, autoLog=True, backendConf=UNKNOWN, backgroundFit=<method-wrapper '__getattribute__' of attributeSetter object at 0x000001D00370AA00>, backgroundImage=<method-wrapper '__getattribute__' of attributeSetter object at 0x000001D00370A9A0>, bitsMode=UNKNOWN, blendMode='avg', bpc=(8, 8, 8), color=array([0, 0, 0]), colorSpace='rgb', depthBits=8, fullscr=<method-wrapper '__getattribute__' of attributeSetter object at 0x000001D00370A6D0>, gamma=None, gammaErrorPolicy='raise', lms=UNKNOWN, monitor=<psychopy.monitors.calibTools.Monitor object at 0x000001D009C9D460>, multiSample=False, name='window1', numSamples=2, pos=(0, 0), screen=0, size=array([1920, 1080]), stencilBits=0, stereo=False, units='height', useFBO=True, useRetina=False, viewOri=0.0, viewPos=None, viewScale=None, waitBlanking=True, winType='pyglet')
+6.1156 	EXP 	window1: mouseVisible = True
+6.1156 	EXP 	window1: backgroundImage = ''
+6.1156 	EXP 	window1: backgroundFit = 'none'
+6.1156 	EXP 	window1: mouseVisible = False
+6.1157 	EXP 	window1: Attempting to measure frame rate of screen (0) ...
+6.1157 	EXP 	window1: recordFrameIntervals = False
+6.2820 	EXP 	window1: recordFrameIntervals = True
+6.4662 	EXP 	Screen (0) actual frame rate measured at 59.69Hz
+6.4663 	EXP 	window1: recordFrameIntervals = False
+8.2882 	EXP 	Created image_l = ImageStim(__class__=<class 'psychopy.visual.image.ImageStim'>, anchor=('center', 'center'), autoLog=True, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-1.0, flipHoriz=False, flipVert=False, image='default.png', interpolate=True, mask=None, maskParams=None, name='image_l', opacity=1.0, ori=0.0, pos=array([-0.33,  0.  ]), size=array([0.5, 0.5]), texRes=128.0, units='height', win=Window(...))
+8.3016 	EXP 	Created image_r = ImageStim(__class__=<class 'psychopy.visual.image.ImageStim'>, anchor=('center', 'center'), autoLog=True, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-2.0, flipHoriz=False, flipVert=False, image='default.png', interpolate=True, mask=None, maskParams=None, name='image_r', opacity=1.0, ori=0.0, pos=array([0.33, 0.  ]), size=array([0.5, 0.5]), texRes=128.0, units='height', win=Window(...))
+8.3021 	EXP 	window1: mouseVisible = True
+8.3031 	EXP 	Created sequence: random, trialTypes=1, nReps=100, seed=None
+8.3035 	EXP 	New trial (rep=0, index=0): None
+8.3495 	EXP 	image_l: image = 'stimuli/fractal_left.png'
+8.3495 	EXP 	image_r: image = 'stimuli/fractal_right.png'
+8.3495 	EXP 	image_l: autoDraw = True
+8.3495 	EXP 	image_r: autoDraw = True
+9.3165 	DATA 	Mouse: Left button down, pos=(1145,649)
+9.4068 	EXP 	window1: mouseVisible = True
