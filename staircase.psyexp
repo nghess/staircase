@@ -252,20 +252,36 @@
     </Routine>
   </Routines>
   <Flow>
-    <LoopInitiator loopType="TrialHandler" name="staircase">
+    <LoopInitiator loopType="TrialHandler" name="trials">
       <Param name="Selected rows" updates="None" val="" valType="str"/>
-      <Param name="conditions" updates="None" val="None" valType="str"/>
-      <Param name="conditionsFile" updates="None" val="" valType="file"/>
+      <Param name="conditions" updates="None" val="[{'target_beta': 1}, {'target_beta': 1.5}, {'target_beta': 2}, {'target_beta': 2.5}, {'target_beta': 3}, {'target_beta': 3.5}, {'target_beta': 4}, {'target_beta': 4.5}, {'target_beta': 5}]" valType="str"/>
+      <Param name="conditionsFile" updates="None" val="target_betas.xlsx" valType="file"/>
       <Param name="endPoints" updates="None" val="[0, 1]" valType="num"/>
       <Param name="isTrials" updates="None" val="True" valType="bool"/>
       <Param name="loopType" updates="None" val="random" valType="str"/>
-      <Param name="nReps" updates="None" val="100" valType="num"/>
-      <Param name="name" updates="None" val="staircase" valType="code"/>
+      <Param name="nReps" updates="None" val="5" valType="num"/>
+      <Param name="name" updates="None" val="trials" valType="code"/>
       <Param name="random seed" updates="None" val="" valType="code"/>
+    </LoopInitiator>
+    <LoopInitiator loopType="StairHandler" name="staircase">
+      <Param name="N down" updates="None" val="3" valType="num"/>
+      <Param name="N reversals" updates="None" val="" valType="num"/>
+      <Param name="N up" updates="None" val="1" valType="num"/>
+      <Param name="endPoints" updates="None" val="[0, 1]" valType="num"/>
+      <Param name="isTrials" updates="None" val="True" valType="bool"/>
+      <Param name="loopType" updates="None" val="staircase" valType="str"/>
+      <Param name="max value" updates="None" val="10" valType="num"/>
+      <Param name="min value" updates="None" val="0" valType="num"/>
+      <Param name="nReps" updates="None" val="5" valType="num"/>
+      <Param name="name" updates="None" val="staircase" valType="code"/>
+      <Param name="start value" updates="None" val="target_beta" valType="num"/>
+      <Param name="step sizes" updates="None" val="[0.8,0.8,0.4,0.4,0.2]" valType="list"/>
+      <Param name="step type" updates="None" val="log" valType="str"/>
     </LoopInitiator>
     <Routine name="trial"/>
     <Routine name="adjust_beta"/>
     <LoopTerminator name="staircase"/>
+    <LoopTerminator name="trials"/>
     <Routine name="Debrief"/>
   </Flow>
 </PsychoPy2experiment>
