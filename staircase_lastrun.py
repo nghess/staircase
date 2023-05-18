@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2023.1.1),
-    on May 17, 2023, at 22:42
+    on May 18, 2023, at 00:41
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -42,11 +42,13 @@ from numpy import inf
 import matplotlib.pyplot as plt
 from matplotlib import animation
 
-# Variables
-beta_hi = 4
-beta_lo = 2
-target = 3
-count = 0
+# Initialize Variables
+beta_hi = 0 #check on a way to define these via excel sheet, put in end routine
+beta_lo = 0
+betas = [beta_hi, beta_lo]
+count = 0  # Counts trials within a block. Can be used to tune converge/diverge distance
+mistakes = 0  # Counts staircase mistakes/reversals
+toggle = True  # True means betas converge, False they diverge
 
 # Track Performance
 performance = []
@@ -54,20 +56,26 @@ pct_correct = 0
 target_beta = 0
 
 # Converge numbers function
-def converge_numbers(numbers, target, i):
+def converge_diverge(numbers, target, i, converge=True):
 
-    converged_numbers = []
+    converged_numbers = []  # Clear list
     
     for number in numbers:
-        #Should this be a set interval, or a set step size?
-        # Probably, a policy where the step size decreases 3 times or so works.
         pseudo_random_shift = .05#round(random.uniform(0, abs(target - number)/3), 2)
-        #print(pseudo_random_shift)
 
-        if number > target:
-            new_number = number - pseudo_random_shift
-        elif number < target:
-            new_number = number + pseudo_random_shift
+        # Adjust beta_hi
+        if number >= target:
+            if converge:
+                new_number = number - pseudo_random_shift
+            else:
+                new_number = number + pseudo_random_shift
+
+        # Adjust beta_lo
+        elif number <= target:
+            if converge:
+                new_number = number + pseudo_random_shift
+            else:
+                new_number = number - pseudo_random_shift
 
         converged_numbers.append(new_number)
 
@@ -314,12 +322,14 @@ eyetracker = None
 # create a default keyboard (e.g. to check for escape)
 defaultKeyboard = keyboard.Keyboard(backend='iohub')
 
+# --- Initialize components for Routine "init_beta" ---
+
 # --- Initialize components for Routine "trial" ---
 image_l = visual.ImageStim(
     win=win,
     name='image_l', 
     image='default.png', mask=None, anchor='center',
-    ori=0.0, pos=(-0.33, 0), size=(0.5, 0.5),
+    ori=0.0, pos=(-0.33, 0), size=None,
     color=[1,1,1], colorSpace='rgb', opacity=None,
     flipHoriz=False, flipVert=False,
     texRes=128.0, interpolate=True, depth=-1.0)
@@ -327,7 +337,7 @@ image_r = visual.ImageStim(
     win=win,
     name='image_r', 
     image='default.png', mask=None, anchor='center',
-    ori=0.0, pos=(0.33, 0), size=(0.5, 0.5),
+    ori=0.0, pos=(0.33, 0), size=None,
     color=[1,1,1], colorSpace='rgb', opacity=None,
     flipHoriz=False, flipVert=False,
     texRes=128.0, interpolate=True, depth=-2.0)
@@ -348,6 +358,30 @@ target_b = visual.TextStim(win=win, name='target_b',
     color='white', colorSpace='rgb', opacity=None, 
     languageStyle='LTR',
     depth=-5.0);
+beta_l = visual.TextStim(win=win, name='beta_l',
+    text='',
+    font='Open Sans',
+    pos=(-.33, -.33), height=0.05, wrapWidth=None, ori=0.0, 
+    color=[0.6471, -0.1765, -0.7647], colorSpace='rgb', opacity=None, 
+    languageStyle='LTR',
+    depth=-6.0);
+beta_r = visual.TextStim(win=win, name='beta_r',
+    text='',
+    font='Open Sans',
+    pos=(.33, -.33), height=0.05, wrapWidth=None, ori=0.0, 
+    color=[0.6471, -0.1765, -0.7647], colorSpace='rgb', opacity=None, 
+    languageStyle='LTR',
+    depth=-7.0);
+
+# --- Initialize components for Routine "pause" ---
+key_resp = keyboard.Keyboard()
+text = visual.TextStim(win=win, name='text',
+    text='Please press the space bar to move to the next block.',
+    font='Open Sans',
+    pos=(0, 0), height=0.05, wrapWidth=None, ori=0.0, 
+    color='white', colorSpace='rgb', opacity=None, 
+    languageStyle='LTR',
+    depth=-1.0);
 
 # --- Initialize components for Routine "Debrief" ---
 text_2 = visual.TextStim(win=win, name='text_2',
@@ -363,23 +397,81 @@ globalClock = core.Clock()  # to track the time since experiment started
 routineTimer = core.Clock()  # to track time remaining of each (possibly non-slip) routine 
 
 # set up handler to look after randomisation of conditions etc
-target = data.TrialHandler(nReps=1.0, method='random', 
+beta_blocks = data.TrialHandler(nReps=1.0, method='random', 
     extraInfo=expInfo, originPath=-1,
     trialList=data.importConditions('target_betas.xlsx'),
-    seed=None, name='target')
-thisExp.addLoop(target)  # add the loop to the experiment
-thisTarget = target.trialList[0]  # so we can initialise stimuli with some values
-# abbreviate parameter names if possible (e.g. rgb = thisTarget.rgb)
-if thisTarget != None:
-    for paramName in thisTarget:
-        exec('{} = thisTarget[paramName]'.format(paramName))
+    seed=None, name='beta_blocks')
+thisExp.addLoop(beta_blocks)  # add the loop to the experiment
+thisBeta_block = beta_blocks.trialList[0]  # so we can initialise stimuli with some values
+# abbreviate parameter names if possible (e.g. rgb = thisBeta_block.rgb)
+if thisBeta_block != None:
+    for paramName in thisBeta_block:
+        exec('{} = thisBeta_block[paramName]'.format(paramName))
 
-for thisTarget in target:
-    currentLoop = target
-    # abbreviate parameter names if possible (e.g. rgb = thisTarget.rgb)
-    if thisTarget != None:
-        for paramName in thisTarget:
-            exec('{} = thisTarget[paramName]'.format(paramName))
+for thisBeta_block in beta_blocks:
+    currentLoop = beta_blocks
+    # abbreviate parameter names if possible (e.g. rgb = thisBeta_block.rgb)
+    if thisBeta_block != None:
+        for paramName in thisBeta_block:
+            exec('{} = thisBeta_block[paramName]'.format(paramName))
+    
+    # --- Prepare to start Routine "init_beta" ---
+    continueRoutine = True
+    # update component parameters for each repeat
+    # Run 'Begin Routine' code from set_betas
+    if count == 0:
+        beta_lo = target_beta - 1
+        beta_hi = target_beta + 1 
+    # keep track of which components have finished
+    init_betaComponents = []
+    for thisComponent in init_betaComponents:
+        thisComponent.tStart = None
+        thisComponent.tStop = None
+        thisComponent.tStartRefresh = None
+        thisComponent.tStopRefresh = None
+        if hasattr(thisComponent, 'status'):
+            thisComponent.status = NOT_STARTED
+    # reset timers
+    t = 0
+    _timeToFirstFrame = win.getFutureFlipTime(clock="now")
+    frameN = -1
+    
+    # --- Run Routine "init_beta" ---
+    routineForceEnded = not continueRoutine
+    while continueRoutine:
+        # get current time
+        t = routineTimer.getTime()
+        tThisFlip = win.getFutureFlipTime(clock=routineTimer)
+        tThisFlipGlobal = win.getFutureFlipTime(clock=None)
+        frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
+        # update/draw components on each frame
+        
+        # check for quit (typically the Esc key)
+        if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
+            core.quit()
+            if eyetracker:
+                eyetracker.setConnectionState(False)
+        
+        # check if all components have finished
+        if not continueRoutine:  # a component has requested a forced-end of Routine
+            routineForceEnded = True
+            break
+        continueRoutine = False  # will revert to True if at least one component still running
+        for thisComponent in init_betaComponents:
+            if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
+                continueRoutine = True
+                break  # at least one component has not yet finished
+        
+        # refresh the screen
+        if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
+            win.flip()
+    
+    # --- Ending Routine "init_beta" ---
+    for thisComponent in init_betaComponents:
+        if hasattr(thisComponent, "setAutoDraw"):
+            thisComponent.setAutoDraw(False)
+    # the Routine "init_beta" was not non-slip safe, so reset the non-slip timer
+    routineTimer.reset()
     
     # set up handler to look after randomisation of conditions etc
     stimulus = data.TrialHandler(nReps=100.0, method='random', 
@@ -404,22 +496,22 @@ for thisTarget in target:
         continueRoutine = True
         # update component parameters for each repeat
         # Run 'Begin Routine' code from code
-        # Generate stimuli for 2AFC
+        # Set up stimuli for 2AFC
         betas = [beta_hi, beta_lo]
         random.shuffle(betas) 
         # In case betas are equal, separate them slightly
         if betas[0] == betas[1]:
             betas[0] = betas[0] - .01
         
+        # Generate fractal patterns with random seeds
+        fractal_l = Generate(beta=betas[0], seed=random.randint(123, 12300), size=512, dimension=2)
+        fractal_r = Generate(beta=betas[1], seed=random.randint(123, 12300), size=512, dimension=2)
         
-        fractal_l = Generate(beta=betas[0], seed=random.randint(123, 12300), size=256, dimension=2)
-        fractal_r = Generate(beta=betas[1], seed=random.randint(123, 12300), size=256, dimension=2)
-        
+        # Save fractals as png to load in as PsychoPy image
         cv2.imwrite(f"stimuli/fractal_left.png", fractal_l.pattern*255)
         cv2.imwrite(f"stimuli/fractal_right.png", fractal_r.pattern*255)
         
-        # Find correct side
-        #higher_d = betas.index(max(betas)) 
+        # Define correct side
         if betas[0] > betas[1]:
             correct = image_l
         else:
@@ -438,10 +530,12 @@ for thisTarget in target:
         mouse.corr = []
         mouse.clicked_name = []
         gotValidClick = False  # until a click is received
-        accuracy.setText(pct_correct)
+        accuracy.setText(mistakes)
         target_b.setText(target_beta)
+        beta_l.setText(round(betas[0], 2))
+        beta_r.setText(round(betas[1], 2))
         # keep track of which components have finished
-        trialComponents = [image_l, image_r, mouse, accuracy, target_b]
+        trialComponents = [image_l, image_r, mouse, accuracy, target_b, beta_l, beta_r]
         for thisComponent in trialComponents:
             thisComponent.tStart = None
             thisComponent.tStop = None
@@ -609,6 +703,46 @@ for thisTarget in target:
                 # update params
                 pass
             
+            # *beta_l* updates
+            
+            # if beta_l is starting this frame...
+            if beta_l.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+                # keep track of start time/frame for later
+                beta_l.frameNStart = frameN  # exact frame index
+                beta_l.tStart = t  # local t and not account for scr refresh
+                beta_l.tStartRefresh = tThisFlipGlobal  # on global time
+                win.timeOnFlip(beta_l, 'tStartRefresh')  # time at next scr refresh
+                # add timestamp to datafile
+                thisExp.timestampOnFlip(win, 'beta_l.started')
+                # update status
+                beta_l.status = STARTED
+                beta_l.setAutoDraw(True)
+            
+            # if beta_l is active this frame...
+            if beta_l.status == STARTED:
+                # update params
+                pass
+            
+            # *beta_r* updates
+            
+            # if beta_r is starting this frame...
+            if beta_r.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+                # keep track of start time/frame for later
+                beta_r.frameNStart = frameN  # exact frame index
+                beta_r.tStart = t  # local t and not account for scr refresh
+                beta_r.tStartRefresh = tThisFlipGlobal  # on global time
+                win.timeOnFlip(beta_r, 'tStartRefresh')  # time at next scr refresh
+                # add timestamp to datafile
+                thisExp.timestampOnFlip(win, 'beta_r.started')
+                # update status
+                beta_r.status = STARTED
+                beta_r.setAutoDraw(True)
+            
+            # if beta_r is active this frame...
+            if beta_r.status == STARTED:
+                # update params
+                pass
+            
             # check for quit (typically the Esc key)
             if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
                 core.quit()
@@ -634,11 +768,11 @@ for thisTarget in target:
             if hasattr(thisComponent, "setAutoDraw"):
                 thisComponent.setAutoDraw(False)
         # Run 'End Routine' code from code
-        # Optional: count increase decays convergence factor
         count += 1
+        
         # Nudge betas toward target
-        target = target_beta
-        converged_numbers = converge_numbers(betas, target, count)
+        converged_numbers = converge_diverge(betas, target_beta, count, converge=toggle)
+        
         # Name and store beta values
         beta_hi = max(converged_numbers)
         beta_lo = min(converged_numbers)
@@ -648,11 +782,28 @@ for thisTarget in target:
         # Append most recent answer to performance list 
         performance.append(mouse.corr[0])
         
-        # If answers fall below 50% accuracy, end block
-        if np.sum(performance[-3:-1]) > 1:
-            break
-            print("failure")
-            #continueRoutine = False
+        # If incorrect answer, diverge
+        if performance[-1] == 1:
+            toggle = False
+            mistakes += 1
+            
+        # If 3x correct answers, converge
+        if np.sum(performance[-3:]) == 0:
+            toggle = True
+        
+        # Log activity on console
+        if toggle == True:
+            print("converge")
+        else:
+            print("diverge")
+        
+        # If 3 incorrect reponses, move to next block
+        if mistakes == 3:
+            count = 0  # Reset trial counter
+            mistakes = 0  # reset reversals
+            toggle = True
+            print(f"failure at {target_beta}")
+            break  # Exit stimulus loop and return to beta_blocks loop
         # store data for stimulus (TrialHandler)
         stimulus.addData('mouse.x', mouse.x)
         stimulus.addData('mouse.y', mouse.y)
@@ -668,7 +819,117 @@ for thisTarget in target:
         
     # completed 100.0 repeats of 'stimulus'
     
-# completed 1.0 repeats of 'target'
+    
+    # --- Prepare to start Routine "pause" ---
+    continueRoutine = True
+    # update component parameters for each repeat
+    key_resp.keys = []
+    key_resp.rt = []
+    _key_resp_allKeys = []
+    # keep track of which components have finished
+    pauseComponents = [key_resp, text]
+    for thisComponent in pauseComponents:
+        thisComponent.tStart = None
+        thisComponent.tStop = None
+        thisComponent.tStartRefresh = None
+        thisComponent.tStopRefresh = None
+        if hasattr(thisComponent, 'status'):
+            thisComponent.status = NOT_STARTED
+    # reset timers
+    t = 0
+    _timeToFirstFrame = win.getFutureFlipTime(clock="now")
+    frameN = -1
+    
+    # --- Run Routine "pause" ---
+    routineForceEnded = not continueRoutine
+    while continueRoutine:
+        # get current time
+        t = routineTimer.getTime()
+        tThisFlip = win.getFutureFlipTime(clock=routineTimer)
+        tThisFlipGlobal = win.getFutureFlipTime(clock=None)
+        frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
+        # update/draw components on each frame
+        
+        # *key_resp* updates
+        waitOnFlip = False
+        
+        # if key_resp is starting this frame...
+        if key_resp.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+            # keep track of start time/frame for later
+            key_resp.frameNStart = frameN  # exact frame index
+            key_resp.tStart = t  # local t and not account for scr refresh
+            key_resp.tStartRefresh = tThisFlipGlobal  # on global time
+            win.timeOnFlip(key_resp, 'tStartRefresh')  # time at next scr refresh
+            # add timestamp to datafile
+            thisExp.timestampOnFlip(win, 'key_resp.started')
+            # update status
+            key_resp.status = STARTED
+            # keyboard checking is just starting
+            waitOnFlip = True
+            win.callOnFlip(key_resp.clock.reset)  # t=0 on next screen flip
+            win.callOnFlip(key_resp.clearEvents, eventType='keyboard')  # clear events on next screen flip
+        if key_resp.status == STARTED and not waitOnFlip:
+            theseKeys = key_resp.getKeys(keyList=['y','n','left','right','space'], waitRelease=False)
+            _key_resp_allKeys.extend(theseKeys)
+            if len(_key_resp_allKeys):
+                key_resp.keys = _key_resp_allKeys[-1].name  # just the last key pressed
+                key_resp.rt = _key_resp_allKeys[-1].rt
+                # a response ends the routine
+                continueRoutine = False
+        
+        # *text* updates
+        
+        # if text is starting this frame...
+        if text.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+            # keep track of start time/frame for later
+            text.frameNStart = frameN  # exact frame index
+            text.tStart = t  # local t and not account for scr refresh
+            text.tStartRefresh = tThisFlipGlobal  # on global time
+            win.timeOnFlip(text, 'tStartRefresh')  # time at next scr refresh
+            # add timestamp to datafile
+            thisExp.timestampOnFlip(win, 'text.started')
+            # update status
+            text.status = STARTED
+            text.setAutoDraw(True)
+        
+        # if text is active this frame...
+        if text.status == STARTED:
+            # update params
+            pass
+        
+        # check for quit (typically the Esc key)
+        if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
+            core.quit()
+            if eyetracker:
+                eyetracker.setConnectionState(False)
+        
+        # check if all components have finished
+        if not continueRoutine:  # a component has requested a forced-end of Routine
+            routineForceEnded = True
+            break
+        continueRoutine = False  # will revert to True if at least one component still running
+        for thisComponent in pauseComponents:
+            if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
+                continueRoutine = True
+                break  # at least one component has not yet finished
+        
+        # refresh the screen
+        if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
+            win.flip()
+    
+    # --- Ending Routine "pause" ---
+    for thisComponent in pauseComponents:
+        if hasattr(thisComponent, "setAutoDraw"):
+            thisComponent.setAutoDraw(False)
+    # check responses
+    if key_resp.keys in ['', [], None]:  # No response was made
+        key_resp.keys = None
+    beta_blocks.addData('key_resp.keys',key_resp.keys)
+    if key_resp.keys != None:  # we had a response
+        beta_blocks.addData('key_resp.rt', key_resp.rt)
+    # the Routine "pause" was not non-slip safe, so reset the non-slip timer
+    routineTimer.reset()
+# completed 1.0 repeats of 'beta_blocks'
 
 
 # --- Prepare to start Routine "Debrief" ---
