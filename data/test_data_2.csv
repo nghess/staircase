@@ -1,0 +1,5 @@
+﻿target_beta,trials.thisRepN,trials.thisTrialN,trials.thisN,trials.thisIndex,staircase.thisTrialN,staircase.stepSize,staircase.intensity,mouse.started,staircase.response,participant,session,date,expName,psychopyVersion,frameRate,
+4.5,0,0,0,7,0,0.8,2.05,0.07084990001749247,beta_lo,699642,001,2023-05-17_22h00.20.994,staircase,2023.1.1,59.98411619681316,
+4.5,0,0,0,7,1,0.8,2.0999999999999996,0.030129199963994324,beta_lo,699642,001,2023-05-17_22h00.20.994,staircase,2023.1.1,59.98411619681316,
+4.5,0,0,0,7,2,0.8,2.1499999999999995,0.030570800066925585,beta_lo,699642,001,2023-05-17_22h00.20.994,staircase,2023.1.1,59.98411619681316,
+,,,,,,,,0.030582600040361285,,,,,,,,
