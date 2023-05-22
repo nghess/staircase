@@ -120,7 +120,7 @@
         <Param val="" valType="extendedCode" updates="constant" name="Begin Experiment"/>
         <Param val="" valType="extendedCode" updates="constant" name="Begin JS Experiment"/>
         <Param val="qualtrics = &quot;https://oregon.qualtrics.com/jfe/form/SV_0kCiLJEnvjydFoW&quot;;&amp;#10;participant = expInfo[&quot;participant&quot;];&amp;#10;url = `${qualtrics}?id=${participant}`;&amp;#10;window.open(url);&amp;#10;" valType="extendedCode" updates="constant" name="Begin JS Routine"/>
-        <Param val="# Open new browser window with Qualtrics Big 5 Survey, and participant ID&amp;#10;qualtrics = 'https://oregon.qualtrics.com/jfe/form/SV_0kCiLJEnvjydFoW'&amp;#10;participant = expInfo['participant']&amp;#10;url = f&quot;{qualtrics}?id={participant}&quot;&amp;#10;webbrowser.open(url, new=0, autoraise=True)" valType="extendedCode" updates="constant" name="Begin Routine"/>
+        <Param val="# Open new browser window with Qualtrics Big 5 Survey, and participant ID&amp;#10;qualtrics = 'https://oregon.qualtrics.com/jfe/form/SV_0kCiLJEnvjydFoW'&amp;#10;participant = expInfo['participant']&amp;#10;url = f&quot;{qualtrics}?id={participant}&quot;&amp;#10;chrome_path = 'C:/Program Files/Google/Chrome/Application/chrome.exe --start-fullscreen %s'&amp;#10;webbrowser.open(url, new=0, autoraise=True)" valType="extendedCode" updates="constant" name="Begin Routine"/>
         <Param val="Py" valType="str" updates="None" name="Code Type"/>
         <Param val="" valType="extendedCode" updates="constant" name="Each Frame"/>
         <Param val="" valType="extendedCode" updates="constant" name="Each JS Frame"/>
